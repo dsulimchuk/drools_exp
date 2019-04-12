@@ -1,0 +1,19 @@
+package com.ds
+
+rule "Is of valid age"
+when
+    $ctx : Context( $any : any)
+    $applicant : Applicant(age > 18) from $ctx.any
+    $conflicts : java.util.List() from $ctx.conflicts
+then
+    $applicant.setValid( true );
+end
+
+rule "Is of not valid age"
+when
+    $ctx : Context( $any : any)
+    $applicant : Applicant(age <= 18) from $ctx.any
+    $conflicts : java.util.List() from $ctx.conflicts
+then
+    $conflicts.add(new ActionConflict("Age is not valid"));
+end
